@@ -16,14 +16,12 @@ import logging
 from collections import OrderedDict
 import multiprocessing
 import numpy as np
-
-import tensorflow as tf
-
-import  tensorflow.python.keras as keras
-import tensorflow.python.keras.backend as K
-import tensorflow.keras.layers as KL
-import tensorflow.python.keras.engine as KE
-import tensorflow.python.keras.models as KM
+import tensorflow.compat.v1 as tf
+import keras
+import keras.backend as K
+import keras.layers as KL
+import keras.engine.topology as KE
+import keras.models as KM
 
 from mrcnn import utils
 
@@ -254,7 +252,7 @@ def clip_boxes_graph(boxes, window):
     return clipped
 
 
-class ProposalLayer(keras.layers):
+class ProposalLayer(KE.Layer):
     """Receives anchor scores and selects a subset to pass as proposals
     to the second stage. Filtering is done based on anchor scores and
     non-max suppression to remove overlaps. It also applies bounding
@@ -343,7 +341,7 @@ def log2_graph(x):
     return tf.log(x) / tf.log(2.0)
 
 
-class PyramidROIAlign(keras.layers):
+class PyramidROIAlign(KE.Layer):
     """Implements ROI Pooling on multiple levels of the feature pyramid.
 
     Params:
@@ -621,7 +619,7 @@ def detection_targets_graph(proposals, gt_class_ids, gt_boxes, gt_masks, config)
     return rois, roi_gt_class_ids, deltas, masks
 
 
-class DetectionTargetLayer(keras.layers):
+class DetectionTargetLayer(KE.Layer):
     """Subsamples proposals and generates target box refinement, class_ids,
     and masks for each.
 
@@ -781,7 +779,7 @@ def refine_detections_graph(rois, probs, deltas, window, config):
     return detections
 
 
-class DetectionLayer(keras.layers):
+class DetectionLayer(KE.Layer):
     """Takes classified proposal boxes and their bounding box deltas and
     returns the final detection boxes.
 
