@@ -16,12 +16,12 @@ import logging
 from collections import OrderedDict
 import multiprocessing
 import numpy as np
-import tensorflow as tf
-import keras
-import keras.backend as K
-import keras.layers as KL
-import keras.engine as KE
-import keras.models as KM
+import tensorflow.compat.v1 as tf
+import tensorflow.compat.v1.keras
+import tensorflow.compat.v1.keras.backend as K
+import tensorflow.compat.v1.keras.layers as KL
+import tensorflow.compat.v1.keras.engine as KE
+import tensorflow.compat.v1.keras.models as KM
 
 from mrcnn import utils
 
