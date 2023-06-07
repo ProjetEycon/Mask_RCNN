@@ -943,9 +943,13 @@ def fpn_classifier_graph(rois, feature_maps, image_meta,
 
     # BBox head
     # [batch, num_rois, NUM_CLASSES * (dy, dx, log(dh), log(dw))]
-    x = KL.TimeDistributed(KL.Dense(num_classes * 4, activation='linear'),name='mrcnn_bbox_fc')(shared)
+    x = KL.TimeDistributed(KL.Dense(num_classes * 4, activation='linear'),
+                           name='mrcnn_bbox_fc')(shared)
     # Reshape to [batch, num_rois, NUM_CLASSES, (dy, dx, log(dh), log(dw))]
-    #mrcnn_bbox = KL.Reshape((-1, num_classes, 4), name="mrcnn_bbox")(x)
+   
+    
+
+    mrcnn_bbox = KL.Reshape((-1, num_classes, 4), name="mrcnn_bbox")(x)
 
     return mrcnn_class_logits, mrcnn_probs, mrcnn_bbox
 
@@ -1834,11 +1838,6 @@ class MaskRCNN():
         self.keras_model = self.build(mode=mode, config=config)
 
     def build(self, mode, config):
-        """Build Mask R-CNN architecture.
-            input_shape: The shape of the input image.
-            mode: Either "training" or "inference". The inputs and
-                outputs of the model differ accordingly.
-        """
         assert mode in ['training', 'inference']
 
         # Image size must be dividable by 2 multiple times
