@@ -21,7 +21,7 @@ import tensorflow as tf
 
 import  tensorflow.python.keras as keras
 import tensorflow.python.keras.backend as K
-import tensorflow.python.keras.layers as KL
+import tensorflow.keras.layers as KL
 import tensorflow.python.keras.engine as KE
 import tensorflow.python.keras.models as KM
 
