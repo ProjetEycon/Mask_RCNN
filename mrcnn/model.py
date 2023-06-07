@@ -36,7 +36,7 @@ assert LooseVersion(keras.__version__) >= LooseVersion('2.0.8')
 ############################################################
 
 def log(text, array=None):
-    """Prints a text message. And, optionally, if a Numpy array is provided it
+    """Prints a text mess2age. And, optionally, if a Numpy array is provided it
     prints it's shape, min, and max values.
     """
     if array is not None:
@@ -252,7 +252,7 @@ def clip_boxes_graph(boxes, window):
     return clipped
 
 
-class ProposalLayer(KE.Layer):
+class ProposalLayer(KL):
     """Receives anchor scores and selects a subset to pass as proposals
     to the second stage. Filtering is done based on anchor scores and
     non-max suppression to remove overlaps. It also applies bounding
