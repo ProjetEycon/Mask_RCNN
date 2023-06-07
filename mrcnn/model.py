@@ -17,10 +17,10 @@ from collections import OrderedDict
 import multiprocessing
 import numpy as np
 import tensorflow as tf
-tf.compat.v1.disable_eager_execution()
 import tensorflow.keras as keras
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
+import tensorflow.python.keras.engine as KE
 import tensorflow.keras.models as KM
 
 from mrcnn import utils
@@ -947,7 +947,8 @@ def fpn_classifier_graph(rois, feature_maps, image_meta,
     x = KL.TimeDistributed(KL.Dense(num_classes * 4, activation='linear'),
                            name='mrcnn_bbox_fc')(shared)
     # Reshape to [batch, num_rois, NUM_CLASSES, (dy, dx, log(dh), log(dw))]
-   
+    print(x.shape)
+    s = K.int_shape(x)
     
 
     mrcnn_bbox = KL.Reshape((-1, num_classes, 4), name="mrcnn_bbox")(x)
@@ -1839,6 +1840,11 @@ class MaskRCNN():
         self.keras_model = self.build(mode=mode, config=config)
 
     def build(self, mode, config):
+        """Build Mask R-CNN architecture.
+            input_shape: The shape of the input image.
+            mode: Either "training" or "inference". The inputs and
+                outputs of the model differ accordingly.
+        """
         assert mode in ['training', 'inference']
 
         # Image size must be dividable by 2 multiple times
